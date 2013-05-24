@@ -5,24 +5,34 @@ var _ = {};
   // Return an array of the last n elements of an array. If n is undefined,
   // return just the last element.
   _.last = function(array, n) {
-    var result;
-    if (typeof arguments[1] !== 'number') {
-      result = (array[(array.length)-1]);
+    if (typeof n !== 'number') {
+      return (array[array.length - 1]);
     } else if (n > array.length) {
-      result = array;
+      return array;
     } else {
-      result = [];
+      var result = [];
       for (var i = (array.length - n); i < array.length; i++) {
         result.push(array[i]);
       }
+      return result;
     }
-    return result;
   };
 
   // Like last, but for the first elements
+  // TIP: you can often re-use similar functions in clever ways, like so:
+  // return _.last(array.reverse(), n);
   _.first = function(array, n) {
-    // TIP: you can often re-use similar functions in clever ways, like so:
-    return _.last(array.reverse(), n);
+    if (typeof n !== 'number') {
+      return (array[0]);
+    } else if (n > array.length) {
+      return array;
+    } else {
+      var result = [];
+      for (var i = 0; i < n; i++) {
+        result.push(array[i]);
+      }
+      return result;
+    }
   };
 
 
