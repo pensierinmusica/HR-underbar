@@ -35,9 +35,11 @@ var _ = {};
     }
   };
 
-
-  // Call iterator(value, key, collection) for each element of collection
+// Call iterator(value, key, collection) for each element of collection
   _.each = function(obj, iterator) {
+    for (var i = 0; i < obj.length; i++) {
+      iterator(obj[i], i, obj);
+    }
   };
 
   /*
