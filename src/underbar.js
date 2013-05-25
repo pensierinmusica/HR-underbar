@@ -21,6 +21,7 @@ var _ = {};
   // Like last, but for the first elements
   // TIP: you can often re-use similar functions in clever ways, like so:
   // return _.last(array.reverse(), n);
+  // *****How can it work with the version I implemented for "last"?*****
   _.first = function(array, n) {
     if (typeof n !== 'number') {
       return (array[0]);
@@ -36,6 +37,7 @@ var _ = {};
   };
 
 // Call iterator(value, key, collection) for each element of collection
+// *****What is an iterator and a generator?*****
   _.each = function(obj, iterator) {
     for (var i = 0; i < obj.length; i++) {
       iterator(obj[i], i, obj);
@@ -63,17 +65,40 @@ var _ = {};
   };
 
   // Return all elements of an array that pass a truth test.
+  // *****How do you implement this using the "each" iterator?*****
   _.filter = function(collection, iterator) {
+    var result = [];
+    for (var i = 0; i < collection.length; i++) {
+      if (iterator(collection[i])) {
+        result.push(collection[i]);
+      }
+    }
+    return result;
   };
 
   // Return all elements of an array that don't pass a truth test.
+  // TIP: see if you can re-use _.select() here, without simply
+  // copying code in and modifying it
+  // *****What is "_.select"? Where is it declared?*****
   _.reject = function(collection, iterator) {
-    // TIP: see if you can re-use _.select() here, without simply
-    // copying code in and modifying it
+    var result = [];
+    for (var i = 0; i < collection.length; i++) {
+      if (!iterator(collection[i])) {
+        result.push(collection[i]);
+      }
+    }
+    return result;
   };
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
+    var result = [];
+    for (var i = 0; i < array.length; i++) {
+      if (result.indexOf(array[i]) === -1) {
+        result.push(array[i]);
+      }
+    }
+    return result;
   };
 
 
