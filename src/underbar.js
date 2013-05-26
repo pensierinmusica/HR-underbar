@@ -39,8 +39,14 @@ var _ = {};
 // Call iterator(value, key, collection) for each element of collection
 // *****What is an iterator and a generator?*****
   _.each = function(obj, iterator) {
-    for (var i = 0; i < obj.length; i++) {
-      iterator(obj[i], i, obj);
+    if (Array.isArray(obj)) {
+      for (var i = 0; i < obj.length; i++) {
+        iterator(obj[i], i, obj);
+      }
+    } else {
+      for (var property in obj) {
+        iterator(obj[property], property, obj);
+      }
     }
   };
 
@@ -52,16 +58,26 @@ var _ = {};
 
   // Returns the index at which value can be found in the array, or -1 if value
   // is not present in the array.
-  _.indexOf = function(array, target){
-    var result = -1;
 
-    _.each(array, function(item, index) {
-      if (item === target && result === -1) {
-        result = index;
+  // _.indexOf = function(array, target){
+  //   var result = -1;
+
+  //   _.each(array, function(item, index) {
+  //     if (item === target && result === -1) {
+  //       result = index;
+  //     }
+  //   });
+
+  //   return result;
+  // };
+
+  _.indexOf = function(array, target) {
+    for (var i = 0; i < array.length; i++) {
+      if (array[i] === target) {
+        return i;
       }
-    });
-
-    return result;
+    }
+    return -1;
   };
 
   // Return all elements of an array that pass a truth test.
@@ -101,7 +117,6 @@ var _ = {};
     return result;
   };
 
-
   /*
    * map() is a useful primitive iteration function that works a lot
    * like each(), but in addition to running the operation on all
@@ -109,7 +124,20 @@ var _ = {};
    */
 
   // Return the results of applying an iterator to each element.
+  // _.map = function(array, iterator) {
+  //   var result = [];
+  //   _.each(array, function(value, index, collection) {
+  //     result.push(iterator(value, index, colllection));
+  //   });
+  //   return result;
+  // };
+
   _.map = function(array, iterator) {
+    var result = [];
+    for (var i = 0; i < array.length; i++) {
+      result.push(iterator(array[i], i, array));
+    }
+    return result;
   };
 
   /*
