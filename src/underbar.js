@@ -37,15 +37,14 @@ var _ = {};
   };
 
 // Call iterator(value, key, collection) for each element of collection
-// *****What is an iterator and a generator?*****
   _.each = function(obj, iterator) {
     if (Array.isArray(obj)) {
       for (var i = 0; i < obj.length; i++) {
         iterator(obj[i], i, obj);
       }
     } else {
-      for (var property in obj) {
-        iterator(obj[property], property, obj);
+      for (var prop in obj) {
+        iterator(obj[prop], prop, obj);
       }
     }
   };
@@ -59,6 +58,8 @@ var _ = {};
   // Returns the index at which value can be found in the array, or -1 if value
   // is not present in the array.
 
+  // Original implementation of "_indexOf"
+
   // _.indexOf = function(array, target){
   //   var result = -1;
 
@@ -67,9 +68,10 @@ var _ = {};
   //       result = index;
   //     }
   //   });
-
   //   return result;
   // };
+
+  // My implementation of "_indexOf"
 
   _.indexOf = function(array, target) {
     for (var i = 0; i < array.length; i++) {
@@ -124,14 +126,6 @@ var _ = {};
    */
 
   // Return the results of applying an iterator to each element.
-  // _.map = function(array, iterator) {
-  //   var result = [];
-  //   _.each(array, function(value, index, collection) {
-  //     result.push(iterator(value, index, colllection));
-  //   });
-  //   return result;
-  // };
-
   _.map = function(array, iterator) {
     var result = [];
     for (var i = 0; i < array.length; i++) {
@@ -139,6 +133,16 @@ var _ = {};
     }
     return result;
   };
+
+// Map function using "_.each"
+
+// _.map = function(list, iterator) {
+//   var results = [];
+//   _.each(list, function(val, index, collection) {
+//     results.push(iterator(val, index, collection));
+//   });
+//   return results;
+// };
 
   /*
    * TIP: map is really handy when you want to transform an array of
@@ -155,9 +159,30 @@ var _ = {};
     });
   };
 
-  // Calls the method named by methodName on each value in the list.
-  _.invoke = function(list, methodName) {
+  // Applies the function named by the `method` parameter on each value in
+  // the `collection`. TIP: http://mdn.io/apply
+  _.invoke = function(list, method) {
+    for (var i = 0; i < list.length; i++) {
+      if (list[i][method]) {
+        method = list[i][method];
+      }
+      method.apply(list[i]);
+    }
+    return list;
   };
+
+//  CJ's version
+
+//   item === list[i]
+// _.invoke = function(collection, method) {
+//   return _.map(collection, function(item, key, list) {
+//     method = item[method] ? item[method] : method;
+//     if(item[method]){
+//       method = item[method];
+//     }
+//     return method.apply(item);
+//   });
+// };
 
   // Reduces an array or object to a single value by repetitively calling
   // iterator(previousValue, item) for each item. previousValue should be
