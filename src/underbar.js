@@ -21,19 +21,8 @@ var _ = {};
   // Like last, but for the first elements
   // TIP: you can often re-use similar functions in clever ways, like so:
   // return _.last(array.reverse(), n);
-  // *****How can it work with the version I implemented for "last"?*****
   _.first = function(array, n) {
-    if (typeof n !== 'number') {
-      return (array[0]);
-    } else if (n > array.length) {
-      return array;
-    } else {
-      var result = [];
-      for (var i = 0; i < n; i++) {
-        result.push(array[i]);
-      }
-      return result;
-    }
+    return [].reverse.call(_.last([].reverse.call(array), n));
   };
 
 // Call iterator(value, key, collection) for each element of collection
@@ -198,6 +187,13 @@ var _ = {};
   //   }, 0); // should be 6
   //
   _.reduce = function(obj, iterator, initialValue) {
+    if (typeof initialValue === undefined) {
+      initialValue = 0;
+    }
+    for (var i = 0; i < obj.length; i++) {
+      initialValue += iterator(obj[i]);
+    }
+    return initialValue;
   };
 
   // Determine if the array or object contains a given value (using `===`).
