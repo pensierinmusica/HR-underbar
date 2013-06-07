@@ -72,14 +72,13 @@ var _ = {};
   };
 
   // Return all elements of an array that pass a truth test.
-  // *****How do you implement this using the "each" iterator?*****
   _.filter = function(collection, iterator) {
     var result = [];
-    for (var i = 0; i < collection.length; i++) {
-      if (iterator(collection[i])) {
-        result.push(collection[i]);
+    _.each(collection, function(element){
+      if (iterator(element)) {
+        result.push(element);
       }
-    }
+    });
     return result;
   };
 
