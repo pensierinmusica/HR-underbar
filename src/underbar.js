@@ -35,7 +35,7 @@ var _ = {};
       for (var prop in obj) {
         iterator(obj[prop], prop, obj);
       }
-    }
+        }
   };
 
   /*
@@ -96,14 +96,21 @@ var _ = {};
     return result;
   };
 
+ // _.reject = function(collection, iterator) {
+ //    var result = [];
+    
+ //    return result;
+ //  };
+
+
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
     var result = [];
-    for (var i = 0; i < array.length; i++) {
-      if (result.indexOf(array[i]) === -1) {
-        result.push(array[i]);
+    _.each(array, function(element){
+      if (result.indexOf(element) === -1) {
+        result.push(element);
       }
-    }
+    });
     return result;
   };
 
@@ -116,21 +123,11 @@ var _ = {};
   // Return the results of applying an iterator to each element.
   _.map = function(array, iterator) {
     var result = [];
-    for (var i = 0; i < array.length; i++) {
-      result.push(iterator(array[i], i, array));
-    }
+    _.each(array, function(value) {
+      result.push(iterator(value));
+    });
     return result;
   };
-
-// Map function using "_.each"
-
-// _.map = function(list, iterator) {
-//   var results = [];
-//   _.each(list, function(val, index, collection) {
-//     results.push(iterator(val, index, collection));
-//   });
-//   return results;
-// };
 
   /*
    * TIP: map is really handy when you want to transform an array of
@@ -149,28 +146,14 @@ var _ = {};
 
   // Applies the function named by the `method` parameter on each value in
   // the `collection`. TIP: http://mdn.io/apply
+
   _.invoke = function(list, method) {
-    for (var i = 0; i < list.length; i++) {
-      if (list[i][method]) {
-        method = list[i][method];
-      }
-      method.apply(list[i]);
-    }
+    _.each(list, function(element) {
+      element[method] && (method = element[method]);
+      method.apply(element);
+    });
     return list;
   };
-
-//  CJ's version
-
-//   item === list[i]
-// _.invoke = function(collection, method) {
-//   return _.map(collection, function(item, key, list) {
-//     method = item[method] ? item[method] : method;
-//     if(item[method]){
-//       method = item[method];
-//     }
-//     return method.apply(item);
-//   });
-// };
 
   // Reduces an array or object to a single value by repetitively calling
   // iterator(previousValue, item) for each item. previousValue should be
