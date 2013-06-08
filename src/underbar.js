@@ -169,12 +169,10 @@ var _ = {};
   //   }, 0); // should be 6
   //
   _.reduce = function(obj, iterator, initialValue) {
-    if (typeof initialValue === undefined) {
-      initialValue = 0;
-    }
-    for (var i = 0; i < obj.length; i++) {
-      initialValue += iterator(obj[i]);
-    }
+    initialValue || (initialValue = 0);
+    _.each(obj, function(element) {
+      initialValue = iterator(initialValue, element);
+    });
     return initialValue;
   };
 
