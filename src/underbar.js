@@ -177,9 +177,9 @@ var _ = {};
   };
 
   // Determine if the array or object contains a given value (using `===`).
+  // TIP: A lot of iteration problems can be most easily expressed in
+  // terms of reduce(). Here's a freebie to demonstrate!
   _.contains = function(collection, target) {
-    // TIP: A lot of iteration problems can be most easily expressed in
-    // terms of reduce(). Here's a freebie to demonstrate!
     return _.reduce(collection, function(wasFound, item){
       if(wasFound){
         return true;
@@ -188,18 +188,24 @@ var _ = {};
     }, false);
   };
 
-
   // Determine whether all of the elements match a truth test.
   _.every = function(obj, iterator) {
-    // TIP: use reduce on this one!
+    var result = true;
+    _.each(obj, function(element) {
+      iterator(element) || (result = false);
+    });
+    return result;
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
+  // TIP: re-use every() here
   _.any = function(obj, iterator) {
-    // TIP: re-use every() here
+    iterator = iterator || function(element) {return element;};
+    return !_.every(obj, function(element) {
+      return !iterator(element);
+    });
   };
-
 
   /*
    * These are a couple of helpers for merging objects
