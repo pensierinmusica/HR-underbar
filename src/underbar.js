@@ -236,8 +236,14 @@ var _ = {};
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+      for (var prop in source) {
+        typeof obj[prop] === 'undefined' && (obj[prop] = source[prop]);
+      }
+    }
+    return obj;
   };
-
 
   /*
    * Now we're getting into function decorators, which take in any function
@@ -257,7 +263,7 @@ var _ = {};
     return function(){
       if(!alreadyCalled){
         // TIP: .apply(this, arguments) is the standard way to pass on all of the
-        // infromation from one function call to another.
+        // information from one function call to another.
         result = func.apply(this, arguments);
         alreadyCalled = true;
       }
@@ -273,6 +279,15 @@ var _ = {};
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+    var memo = {};
+    return function() {
+      var arg = arguments[0];
+      if (memo.hasOwnProperty(arg)) {
+        return memo[arg];
+      }
+      memo[arg] = func(arg);
+      return memo[arg];
+    };
   };
 
   // Delays a function for the given number of milliseconds, and then calls
