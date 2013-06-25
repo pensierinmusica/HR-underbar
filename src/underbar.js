@@ -49,9 +49,7 @@ var _ = {};
   _.filter = function(collection, iterator) {
     var result = [];
     _.each(collection, function(element){
-      if (iterator(element)) {
-        result.push(element);
-      }
+      (iterator(element)) && result.push(element);
     });
     return result;
   };
