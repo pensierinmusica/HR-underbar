@@ -2,20 +2,20 @@ var _ = {};
 
 (function() {
 
-// Return an array of the first n elements of an array. If n is undefined,
-// return just the first element.
+  // Return an array of the first n elements of an array. If n is undefined,
+  // return just the first element.
   _.first = function(array, n) {
     Array.isArray(array) || (array = Array.prototype.slice.call(array));
     return typeof n !== 'number' ? array[0] : array.slice(0,n);
   };
 
-// Return an array of the last n elements of an array. If n is undefined,
-// return just the last element.
+  // Return an array of the last n elements of an array. If n is undefined,
+  // return just the last element.
   _.last = function(array, n) {
     return [].reverse.call(_.first([].reverse.call(array), n));
   };
 
-// Call iterator(value, key, collection) for each element of collection
+  // Call iterator(value, key, collection) for each element of collection
   _.each = function(obj, iterator) {
     if (Array.isArray(obj)) {
       for (var i = 0; i < obj.length; i++) {
@@ -81,8 +81,8 @@ var _ = {};
   // Return the results of applying an iterator to each element.
   _.map = function(array, iterator) {
     var result = [];
-    _.each(array, function(value) {
-      result.push(iterator(value));
+    _.each(array, function(key, value, collection) {
+      result.push(iterator(key, value, collection));
     });
     return result;
   };
@@ -102,7 +102,7 @@ var _ = {};
     });
   };
 
-  // Applies the function named by the `method` parameter on each value in
+  // Calls the method named by methodName on each value in the list.
   // the `collection`. TIP: http://mdn.io/apply
 
   _.invoke = function(list, method) {
@@ -127,19 +127,19 @@ var _ = {};
   //   }, 0); // should be 6
   //
   _.reduce = function(obj, iterator, initialValue) {
-    initialValue || (initialValue = 0);
+    var accumulator = initialValue || 0;
     _.each(obj, function(element) {
       initialValue = iterator(initialValue, element);
     });
-    return initialValue;
+    return accumulator;
   };
 
   // Determine if the array or object contains a given value (using `===`).
   // TIP: A lot of iteration problems can be most easily expressed in
   // terms of reduce(). Here's a freebie to demonstrate!
   _.contains = function(collection, target) {
-    return _.reduce(collection, function(wasFound, item){
-      if(wasFound){
+    return _.reduce(collection, function(wasFound, item) {
+      if(wasFound) {
         return true;
       }
       return item === target;
