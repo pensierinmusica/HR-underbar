@@ -2,27 +2,17 @@ var _ = {};
 
 (function() {
 
-  // Return an array of the last n elements of an array. If n is undefined,
-  // return just the last element.
-  _.last = function(array, n) {
-    if (typeof n !== 'number') {
-      return (array[array.length - 1]);
-    } else if (n > array.length) {
-      return array;
-    } else {
-      var result = [];
-      for (var i = (array.length - n); i < array.length; i++) {
-        result.push(array[i]);
-      }
-      return result;
-    }
+// Return an array of the first n elements of an array. If n is undefined,
+// return just the first element.
+  _.first = function(array, n) {
+    Array.isArray(array) || (array = Array.prototype.slice.call(array));
+    return typeof n !== 'number' ? array[0] : array.slice(0,n);
   };
 
-  // Like last, but for the first elements
-  // TIP: you can often re-use similar functions in clever ways, like so:
-  // return _.last(array.reverse(), n);
-  _.first = function(array, n) {
-    return [].reverse.call(_.last([].reverse.call(array), n));
+// Return an array of the last n elements of an array. If n is undefined,
+// return just the last element.
+  _.last = function(array, n) {
+    return [].reverse.call(_.first([].reverse.call(array), n));
   };
 
 // Call iterator(value, key, collection) for each element of collection
@@ -32,8 +22,8 @@ var _ = {};
         iterator(obj[i], i, obj);
       }
     } else {
-      for (var prop in obj) {
-        iterator(obj[prop], prop, obj);
+      for (var key in obj) {
+        iterator(obj[key], key, obj);
       }
         }
   };
@@ -46,22 +36,6 @@ var _ = {};
 
   // Returns the index at which value can be found in the array, or -1 if value
   // is not present in the array.
-
-  // Original implementation of "_indexOf"
-
-  // _.indexOf = function(array, target){
-  //   var result = -1;
-
-  //   _.each(array, function(item, index) {
-  //     if (item === target && result === -1) {
-  //       result = index;
-  //     }
-  //   });
-  //   return result;
-  // };
-
-  // My implementation of "_indexOf"
-
   _.indexOf = function(array, target) {
     for (var i = 0; i < array.length; i++) {
       if (array[i] === target) {
@@ -98,7 +72,7 @@ var _ = {};
 
  // _.reject = function(collection, iterator) {
  //    var result = [];
-    
+
  //    return result;
  //  };
 
@@ -218,8 +192,7 @@ var _ = {};
   //   var obj1 = {key1: "something"};
   //   _.extend(obj1, {
   //     key2: "something new",
-  //     key3: "something else new"
-  //   }, {
+  //     key3: "something else new"  //   }, {
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   //
@@ -280,8 +253,7 @@ var _ = {};
   // instead if possible.
   _.memoize = function(func) {
     var memo = {};
-    return function() {
-      var arg = arguments[0];
+    return function(arg) {
       if (memo.hasOwnProperty(arg)) {
         return memo[arg];
       }
@@ -301,7 +273,7 @@ var _ = {};
     for (var i in arguments) {
       args.push(arguments[i]);
     }
-    args = args.slice(2, arguments.length);
+    args = args.slice(2);
     function delayed() {
       return func.apply(this, args);
     }
