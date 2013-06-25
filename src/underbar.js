@@ -55,25 +55,11 @@ var _ = {};
   };
 
   // Return all elements of an array that don't pass a truth test.
-  // TIP: see if you can re-use _.select() here, without simply
-  // copying code in and modifying it
-  // *****What is "_.select"? Where is it declared?*****
   _.reject = function(collection, iterator) {
-    var result = [];
-    for (var i = 0; i < collection.length; i++) {
-      if (!iterator(collection[i])) {
-        result.push(collection[i]);
-      }
-    }
-    return result;
+    return _.filter(collection, function(element) {
+      return !iterator(element);
+    });
   };
-
- // _.reject = function(collection, iterator) {
- //    var result = [];
-
- //    return result;
- //  };
-
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
