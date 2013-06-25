@@ -148,11 +148,9 @@ var _ = {};
 
   // Determine whether all of the elements match a truth test.
   _.every = function(obj, iterator) {
-    var result = true;
-    _.each(obj, function(element) {
-      iterator(element) || (result = false);
-    });
-    return result;
+    return _.reduce(obj, function(accumulator, element) {
+      return accumulator && !!iterator(element);
+    }, true);
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
@@ -182,10 +180,9 @@ var _ = {};
   //
   _.extend = function(obj) {
     for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-      for (var prop in source) {
-        obj[prop] = source[prop];
-      }
+      _.each(arguments[i], function(value, key) {
+        obj[key] = value;
+      });
     }
     return obj;
   };
@@ -253,15 +250,11 @@ var _ = {};
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
-    var args = [];
-    for (var i in arguments) {
-      args.push(arguments[i]);
-    }
-    args = args.slice(2);
-    function delayed() {
-      return func.apply(this, args);
-    }
-    setTimeout(delayed, wait);
+    var args = Array.prototype.slice.call(arguments, 2);
+    var fn = function() {
+      func.apply({},args);
+    };
+    setTimeout(fn, wait);
   };
 
 

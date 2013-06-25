@@ -24,8 +24,6 @@ describe("last", function() {
 
 });
 
-/*
-
 describe("first", function() {
   it("should be able to pull out the first element of an array", function() {
     expect(_.first([1,2,3])).to.equal(1);
@@ -425,12 +423,16 @@ describe("delay", function() {
 
 describe("shuffle", function() {
   it("should not modify the original object", function() {
-    var numbers = _.range(10);
+    var numbers = [1,2,3,4,5,6,7,8,9,10];
     var shuffled = _.shuffle(numbers);
 
-    expect(shuffled.sort()).to.eql(numbers);
+    // expect(shuffled.sort()).to.eql(numbers);
+    // this test needs to be fixed as here below?
+    expect(shuffled.sort(function(a,b) {return a - b;})).to.eql(numbers);
   });
 });
+
+/*
 
 describe("sortBy", function() {
   it("should sort by age", function() {
