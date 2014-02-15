@@ -2,17 +2,29 @@ var _ = {};
 
 (function() {
 
-  // Return an array of the first n elements of an array. If n is undefined,
-  // return just the first element.
-  _.first = function(array, n) {
-    Array.isArray(array) || (array = Array.prototype.slice.call(array));
-    return typeof n !== 'number' ? array[0] : array.slice(0,n);
-  };
-
   // Return an array of the last n elements of an array. If n is undefined,
   // return just the last element.
   _.last = function(array, n) {
-    return [].reverse.call(_.first([].reverse.call(array), n));
+    if (typeof(n) === 'undefined') {
+      return array[(array.length - 1)];
+    } else if (n !== 0) {
+      return Array.prototype.slice.call(array, -n);
+    } else {
+      return [];
+    }
+  };
+
+  // Badass version
+  // _.last = function(array, n) {
+  //   Array.isArray(array) || (array = [].slice.call(array));
+  //   return typeof(n) === 'undefined' ? array[array.length-1] : typeof(n) === 'number' && n !== 0 ? array.slice(-n) : [];
+  // };
+
+  // Return an array of the first n elements of an array. If n is undefined,
+  // return just the first element.
+  _.first = function(array, n) {
+    // TIP: you can often re-use similar functions in clever ways, like so:
+    return [].reverse.call(_.last([].reverse.call(array), n));
   };
 
   // Call iterator(value, key, collection) for each element of collection
