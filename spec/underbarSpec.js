@@ -69,7 +69,7 @@ describe("indexOf", function() {
 
   it("should work on an arguments object", function() {
     var args = returnArguments(1,2,3);
-    expect(_.indexOf(args, 2)).to.be(1);
+    expect(_.indexOf(args, 2)).to.eql(1);
   });
 
   it("should not have 35 in the list", function() {

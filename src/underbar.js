@@ -30,14 +30,14 @@ var _ = {};
   // Call iterator(value, key, collection) for each element of collection
   _.each = function(obj, iterator) {
     if (Array.isArray(obj)) {
-      for (var i = 0; i < obj.length; i++) {
+      for (var i = 0, len = obj.length; i < len; i++) {
         iterator(obj[i], i, obj);
       }
     } else {
-      for (var key in obj) {
-        iterator(obj[key], key, obj);
+      for (var i in obj) {
+        iterator(obj[i], i, obj);
       }
-        }
+    }
   };
 
   /*
