@@ -91,8 +91,8 @@ var _ = {};
   // Return the results of applying an iterator to each element.
   _.map = function(array, iterator) {
     var result = [];
-    _.each(array, function(key, value, collection) {
-      result.push(iterator(key, value, collection));
+    _.each(array, function(value, key, collection) {
+      result.push(iterator(value, key, collection));
     });
     return result;
   };
@@ -103,7 +103,7 @@ var _ = {};
    * as an example of this.
    */
 
-  // Takes an array of objects and returns and array of the values of
+  // Takes an array of objects and returns an array of the values of
   // a certain property in it. E.g. take an array of people and return
   // an array of just their ages
   _.pluck = function(obj, propertyName) {
