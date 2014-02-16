@@ -115,10 +115,9 @@ var _ = {};
   // Calls the method named by methodName on each value in the list.
   // the `collection`. TIP: http://mdn.io/apply
 
-  _.invoke = function(list, method) {
-    _.each(list, function(element) {
-      element[method] && (method = element[method]);
-      method.apply(element);
+  _.invoke = function(list, methodName) {
+    _.each(list, function(value) {
+      typeof(value[methodName]) === 'function' ? value[methodName]() : methodName.call(value);
     });
     return list;
   };
