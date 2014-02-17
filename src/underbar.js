@@ -138,7 +138,7 @@ var _ = {};
   _.reduce = function(obj, iterator, initialValue) {
     var accumulator = initialValue || 0;
     _.each(obj, function(element) {
-      initialValue = iterator(initialValue, element);
+      accumulator = iterator(accumulator, element);
     });
     return accumulator;
   };
@@ -200,10 +200,9 @@ var _ = {};
   // exists in obj
   _.defaults = function(obj) {
     for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-      for (var prop in source) {
-        typeof obj[prop] === 'undefined' && (obj[prop] = source[prop]);
-      }
+      _.each(arguments[i], function(value, key) {
+        obj.hasOwnProperty(key) || (obj[key] = value);
+      });
     }
     return obj;
   };
