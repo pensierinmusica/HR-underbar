@@ -241,13 +241,10 @@ var _ = {};
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
-    var memo = {};
+    var computed = {};
     return function(arg) {
-      if (memo.hasOwnProperty(arg)) {
-        return memo[arg];
-      }
-      memo[arg] = func(arg);
-      return memo[arg];
+      computed.hasOwnProperty(arg) || (computed[arg] = func(arg));
+      return computed[arg];
     };
   };
 
@@ -258,11 +255,10 @@ var _ = {};
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
-    var args = Array.prototype.slice.call(arguments, 2);
-    var fn = function() {
-      func.apply({},args);
-    };
-    setTimeout(fn, wait);
+    var args = [].slice.call(arguments, 2);
+    setTimeout(function() {
+      func.apply(this, args);
+    }, wait);
   };
 
 
@@ -272,12 +268,12 @@ var _ = {};
 
   // Shuffle an array.
   _.shuffle = function(obj) {
-    var source = obj.slice(0),
-        shuffled = [];
-    while (source.length > 0) {
-    var x = Math.floor(Math.random()*source.length);
-    shuffled.push(source[x]);
-    source.splice(x, 1);
+    var origin = obj.slice(0);
+    var shuffled = [];
+    while (origin.length > 0) {
+    var rand = Math.floor(Math.random()*origin.length);
+    shuffled.push(origin[rand]);
+    origin.splice(rand, 1);
     }
     return shuffled;
   };
